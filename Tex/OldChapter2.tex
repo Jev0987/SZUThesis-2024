@@ -1,0 +1,326 @@
+\chapter{\LaTeX{} 入门}
+\markboth{第二章\ \ 入门}{}
+\section{二级标题}
+
+\subsection{三级标题}
+
+\subsubsection{四级标题}
+
+深圳大学1983年经国家教育部批准设立。中央、教育部和地方高度重视特区大学建设。北大援建中
+文、外语类学科，清华援建电子、建筑类学科，人大援建经济、法律类学科，一大批知名学者云集
+深圳大学。建校伊始，学校在高校管理体制上锐意改革，在奖学金、学分制、勤工俭学等方面进行
+了积极探索，率先在国内实行毕业生不包分配和双向选择制度，推行教职员工全员聘任制度和后勤
+部门社会化管理改革，在全国引起强烈反响\footnote{这是脚注}。
+
+\section{字体}
+
+字体部分主要分为正文字体和数学公式字体，这里主要展示正文字体，数学公式字体详见下节。
+
+正文字体延续 ctex 关于字体的相关设置，需要注意的是，中文字体通常无粗体与斜体，例如
+Windows 平台下，正文默认宋体，粗体则使用黑体代替，斜体则使用了楷体。MacOS 对多数
+字体提供了完整的粗体表示，但是默认的斜体依然使用了楷体。通常论文的正文应简洁明了，
+尽量避免使用多种字体。如需使用粗体或斜体，需重新定义默认字体族或者定义新的字体族。
+
+由上段可知，字体的选择依赖于字库，而字库又依赖于系统设置，模板支持windows、adobe、mac、ubuntu
+四种中文字库，通常情况下可根据系统类型自动选择。但是 Ubuntu 系统因缺少仿宋字体，而部分章节的标题
+会使用到仿宋，模板使用宋体进行了代替，依然推荐 Ubuntu 用户安装完整 adobe 字体并且指定字库。
+
+关于字库的显示效果可参考表~\ref{tab:fontset}，该表展示了 Windows 系统下主要的字体以及对应的粗体与楷体的
+兼容情况。可以看到默认的粗体使用了黑体代替，而斜体则使用了楷书。中文字体的设置均不影响英文字体的设置，英文
+字体除摘要页标题使用了 Lucida Console 字体外，全局使用开源 Times New Roman 字体 XITS。可以看到 \cs{textit}
+和 \cs{kaishu} 都可以生成中文的楷书，但是对于英文字体却产生了不同的影响，书写时需注意。
+
+\def\SZUFONTEG{深圳大学fgFG456}
+\begin{table}
+  \centering
+  \caption{字体选择}\label{tab:fontset}
+  \begin{tabular}{lcccc}
+    \toprule
+    字体 & 命令          & 常规                  & 粗体                         & 斜体                         \\
+    \midrule
+    宋体 & -             & {\SZUFONTEG}          & \textbf{\SZUFONTEG}          & \textit{\SZUFONTEG}          \\
+         & \cs{textrm}   & \textrm{\SZUFONTEG}   & \textbf{\textrm{\SZUFONTEG}} & \textit{\textrm{\SZUFONTEG}} \\
+         & \cs{songti}   & {\songti\SZUFONTEG}   & -                            & -                            \\
+    黑体 & \cs{textsf}   & \textsf{\SZUFONTEG}   & \textbf{\textsf{\SZUFONTEG}} & -                            \\
+         & \cs{heiti}    & {\heiti\SZUFONTEG}    & -                            & -                            \\
+    仿宋 & \cs{texttt}   & \texttt{\SZUFONTEG}   & -                            & -                            \\
+         & \cs{fangsong} & {\fangsong\SZUFONTEG} & -                            & -                            \\
+    楷书 & \cs{textit}   & \textit{\SZUFONTEG}   & -                            & -                            \\
+         & \cs{kaishu}   & {\kaishu\SZUFONTEG}   & -                            & -                            \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+此外，windows 和 mac 对应的中文字库还提供了微软雅黑 \cs{yahei}、隶书 \cs{lishu}、幼圆 \cs{youyuan} 三种字体，
+\cs{yahei} 默认提供了粗体。更多关于默认字体与字体库的选择相关问题可查阅 ctex 文档 4.3 节中文字库。
+
+除了中文字库外，由 XITS 字库可支持俄语 Привет ，默认的中文字体宋体通常支持日语 こんにちは 。
+如需要韩语，则需要导入新的字库，如 Windows 通常带有 ARIALUNI.TTF 韩语字库，可以使用
+\lstinline[language=Tex]!\newCJKfontfamily{\hanyu}{ARIALUNI.TTF}! 导入新的字库，就可以使用 \cs{hanyu} 来
+书写韩语了。其他语言同理，可以使用这个命令导入对应的字库。
+
+\section{数学}
+
+\subsection{数学符号与公式}
+
+数学公式均统一使用了开源 Times New Roman 字体 XITS MATH，这套字体除了基本的数字与字母外，还额外设计了许多
+数学符号，包括全局粗体。使用这套字体需导入 \pkg{unicode-math}，所以在启用数学相关字体时需要注意，使用 \cs{sym..} 系列
+命令代替 \cs{math..} 系列命令，以获得统一的字体风格，\cs{math..} 系列命令将会使用普通字母的字体 XITS，而不是
+对应的 XITS MATH。例如加粗 \cs{mathbf} 将使用 \cs{symbf} 代替。
+\[
+  \begin{split}
+    \symcal{L} \{f\}(s) &= \int _{0^{-}}^{\infty} f(t) e^{-st} \, \symrm{d}t, \
+    \symscr{L} \{f\}(s) = \int _{0^{-}}^{\infty} f(t) e^{-st} \, \symrm{d}t\\
+    \symcal{F} \bigl( f(x+x_{0}) \bigr) &= \symcal{F} \bigl( f(x) \bigr) e^{2\pi i\xi x_{0}}, \
+    \symscr{F} \bigl( f(x+x_{0}) \bigr) = \symscr{F} \bigl( f(x) \bigr) e^{2\pi i\xi x_{0}}
+  \end{split}
+\]
+\begin{equation}\label{equ:1}
+  \begin{cases}
+    \frac{\partial \rho}{\partial t} + \nabla\cdot(\rho\Vector{V}) = 0                                                \\
+    \frac{\partial (\rho\Vector{V})}{\partial t} + \nabla\cdot(\rho\Vector{V}\Vector{V}) = \nabla\cdot\Tensor{\sigma} \\
+    \frac{\partial (\rho E)}{\partial t} + \nabla\cdot(\rho E\Vector{V}) = \nabla\cdot(k\nabla T) + \nabla\cdot(\Tensor{\sigma}\cdot\Vector{V})
+  \end{cases}
+\end{equation}
+\begin{equation}\label{equ:2}
+  \frac{\partial }{\partial t}\int\limits_{\Omega} u \, \symrm{d}\Omega + \int\limits_{S} \Vector{n}\cdot(u\Vector{V}) \, \symrm{d}S = \dot{\phi}
+\end{equation}
+
+表~\ref{tab:mathfontset} 中简要示范了几种常用的数学字体，可以看到指令并不是对所有的数字和希腊字母都有效。更多关于
+数学字体相关的知识推荐查阅《在 \LaTeX{} 中使用 OpenType 字体》\footnote{\url{https://stone-zeng.github.io/2020-05-02-use-opentype-fonts-iii/}\label{stonezeng}}
+一文，该文中``字符支持''一节详细介绍了各个命令的使用场景。
+
+\def\SZUMATHFONTEG{fgFG456\delta\Delta}
+\begin{table}[!htbp]
+  \centering
+  \caption{数学公式字体选择}\label{tab:mathfontset}
+  \begin{tabular}{cccccc}
+    \toprule
+    命令        & 样例                        & 命令         & 样例                         & 命令         & 样例                         \\
+    \midrule
+    -           & \({\SZUMATHFONTEG}\)        & \cs{symbf}   & \(\symbf{\SZUMATHFONTEG}\)   & \cs{symrm}   & \(\symrm{\SZUMATHFONTEG}\)   \\
+    \cs{symup}  & \(\symup{\SZUMATHFONTEG}\)  & \cs{symbfup} & \(\symbfup{\SZUMATHFONTEG}\) & \cs{symit}   & \(\symit{\SZUMATHFONTEG}\)   \\
+    \cs{symbb}  & \(\symbb{\SZUMATHFONTEG}\)  & \cs{symsfup} & \(\symsfup{\SZUMATHFONTEG}\) & \cs{symtt}   & \(\symtt{\SZUMATHFONTEG}\)   \\
+    \cs{symcal} & \(\symcal{\SZUMATHFONTEG}\) & \cs{symscr}  & \(\symscr{\SZUMATHFONTEG}\)  & \cs{symfrak} & \(\symfrak{\SZUMATHFONTEG}\) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+在使用数学字体过程中，应遵循相应的标准，根据 GB 3102.11《物理科学和技术中使用的数学
+符号》\footnote{\url{https://zh.wikisource.org/wiki/GB_3102.11}}中规定：
+
+\begin{itemize}
+  \small
+  \item 变量 (例如 \(x\), \(y\) 等)、变动附标 (例如 \(\sum_i x_i\) 中的 \(i\)) 及函数 (例如 \(f\), \(g\) 等)
+        用斜体字母表示。点 \(A\)、线段 \(AB\) 及弧 \(CD\) 用斜体字母表示。
+        在特定场合中视为常数的参数 (例如 \(a\), \(b\) 等) 也用斜体字母表示。
+  \item 有定义的已知函数 (例如 \(\sin \)，\(\exp \)，\(\ln \)，\(\Gamma \) 等) 用正体字母表示。
+  其值不变的数学常数 (例如 \(\exp = 2.718 281 8\ldots \)，\(\symrm{\pi} = 3.141 592 6\ldots \)，\(\symrm{i}^2 = −1\) 等) 用正体
+  字母表示。已定义的算子 (例如 \(\Div \)，\(\deltarm x\) 中的 \(\deltarm \) 及 \(\Dif ��/\Dif ��\) 中的 \(\Dif \)) 也用正体字母表示。
+  \item 数字表中数 (例如 351 204，1.32，7/8) 的表示用正体。
+\end{itemize}
+
+根据这一规定，在 config.tex 中额外定义了一些通用命令，如表~\ref{tab:mathcmd} 所示。使用这些命令，
+我们可以方便的定义公式，如公式\ref{equ:1}、\ref{equ:2}和公式~\ref{equ:3}\textsuperscript{\ref{stonezeng}}。
+\begin{equation}\label{equ:3}
+  \begin{aligned}
+    \oiint_{\partial\Omega} \Vector{}{E} \cdot \Dif \Vector{S} & = \frac{1}{\epsilon_0} \iiint_\Omega \rho \, \Dif V & \quad &
+    \oint_{\partial\Sigma} \Vector{E} \cdot \Dif \Vector{l} = -\frac{\Dif}{\Dif t} \iint_\Sigma \Vector{B} \cdot \Dif \Vector{S}         \\
+    \oiint_{\partial\Omega} \Vector{B} \cdot \Dif \Vector{S} & = 0                                                & \quad &
+    \oint_{\partial\Sigma} \Vector{B} \cdot \Dif \Vector{l} = \mu_0 \iint_\Sigma \Vector{J} \cdot \Vector{S}
+    + \mu_0 \epsilon_0 \frac{\Dif}{\Dif t} \iint_\Sigma \Vector{E} \cdot \Dif \Vector{S} \\
+  \end{aligned}
+\end{equation}
+
+\begin{table}[!htbp]
+  \centering
+  \caption{自定义指令}\label{tab:mathcmd}
+  \begin{tabular}{cccccccc}
+    \toprule
+    用法                   & 样例            & 用法                   & 样例           & 用法                   & 样例           & 用法       & 样例        \\
+    \midrule
+    \verb!\Vector{A}! & \(\Vector{A}\)  & \verb!\Matrix{A}! & \(\Matrix{A}\) & \verb!\Tensor{A}! & \(\Tensor{A}\) & \cs{Dif x} & \(\Dif x\)  \\
+    \verb!\Const{\pi}! & \(\Const{\pi}\) & \cs{deltarm}           & \(\deltarm \)  & \cs{Div}               & \(\Div \)      & \cs{Trace} & \(\Trace \) \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{标题中带有公式 \texorpdfstring{\(\Lambda,\lambda,\theta,\bar{\Lambda},\sqrt{S_{NN}}\)}{}}
+
+\LaTeX{} 支持在标题中带有公式，以及生成的目录中带有公式。如本节标题所示，在目录中均可显示完整的公式。
+由于 \pkg{hyperref} 在生成书签时不支持公式，所以当使用该包时，可以使用 \cs{texorpdfstring} 命令。
+这个命令的第一个参数可以书写公式，第二个参数则用于生成书签，可以使用 \cs{textLambda} 等书签兼容的公式，
+不过最简单的方法就是空出第二个参数，因为书签在打印时不显示，所以无需额外关注。
+
+\subsection{数学环境}
+以下环境共享一个计数器，如果取消这一设定，在 config.tex 中删除 \cs{newtheorem} 的第二个参数[theorem]即可。
+
+\begin{theorem}      这是一个定理。 \end{theorem}
+\begin{axiom}        这是一个公理。 \end{axiom}
+\begin{lemma}        这是一个引理。 \end{lemma}
+\begin{corollary}    这是一个推论。 \end{corollary}
+\begin{assertion}    这是一个断言。 \end{assertion}
+\begin{proposition}  这是一个命题。 \end{proposition}
+\begin{conjecture}   这是一个猜想。 \end{conjecture}
+\begin{assumption}   这是一个假设。 \end{assumption}
+
+以下环境均为独立的计数器。
+
+\begin{definition}   这是一个定义。 \end{definition}
+\begin{example}      这是一个例子。 \end{example}
+\begin{problem}      这是一个问题。 \end{problem}
+\begin{exercise}     这是一个练习。 \end{exercise}
+\begin{remark}       这是一个注。   \end{remark}
+\begin{solution}     这是一个解。   \end{solution}
+\begin{proof}        这是一个证明。 \end{proof}
+
+\section{浮动体}
+
+\subsection{图形}
+
+插入单个图形时效果如图~\ref{fig:single}。同样的方法可以插入多个图形，通过可选参数可以指定图形的高度
+或者宽度，效果如图~\ref{fig:multi}。如果各个子图相互独立，可以使用 \pkg{minipage}，如图~\ref{fig:parallel1}
+和图~\ref{fig:parallel2}。
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics{logo} \\
+  此处可撰写对图的一些说明 \\
+  支持多行
+  \caption{此处是图的标题，也可以在此处撰写说明}\label{fig:single}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[height=2cm]{logo}
+  \hspace{1cm}
+  \includegraphics[height=2cm]{logo}
+  \caption{插入多个图形，共享同一个计数器}\label{fig:multi}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[height=2cm]{logo}
+    \caption{并排图一}\label{fig:parallel1}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \includegraphics[height=2cm]{logo}
+    \caption{并排图二}\label{fig:parallel2}
+  \end{minipage}
+\end{figure}
+
+如果要为共用一个计数器的多个子图添加子标题，建议使用较新的 \pkg{subcaption} 宏包，
+不建议使用 \pkg{subfigure} 或 \pkg{subfig} 等宏包。可以直接使用 \cs{subcaptionbox}
+并排子图，或者使用 \cs{subcaption} 直接放在 minipage 中，用法同 \cs{caption}。
+如图~\ref{fig:subcapbox}，通过对 \cs{subcaptionbox} 和 \cs{includegraphics} 设置不同
+的尺寸，即可实现两幅子图的任意的比例和尺寸。
+
+\begin{figure}[!htbp]
+  \centering
+  \subcaptionbox{图一标题}[0.6\textwidth]{\includegraphics[height=2cm]{logo}}
+  \subcaptionbox{图二标题}[0.3\textwidth]{\includegraphics[height=1cm]{logo}}
+  \caption{同一个计数器包含多个子图}\label{fig:subcapbox}
+\end{figure}
+
+\subsection{表格}
+
+根据印刷格式样式，表格中应使用小五号宋体，最好能够同时调整行间距和表格间距以获得较好的效果。
+学术论文通常使用 \cs{toprule}、\cs{midrule}、\cs{bottomrule} 绘制三线表，效果如表~\ref{tab:sample} 所示。
+此外，\pkg{threeparttable} 宏包提供了子环境可以支持在表格中添加脚注，\pkg{longtable} 宏包实现了可以书写跨页
+的长表格。
+
+\begin{table}[!htbp]
+  \caption{这是一个标准的三线表}\label{tab:sample}
+  \centering
+  \footnotesize% fontsize，小五号字
+  \setlength{\tabcolsep}{4pt}% column separation，表格间距
+  \renewcommand{\arraystretch}{1.2}% row space ，行间距
+  \begin{tabular}{lcccccccc}
+      \toprule
+      行号 & \multicolumn{8}{c}{跨多列的标题}\\
+      \midrule
+      Row 1 & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
+      Row 2 & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
+      Row 3 & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ & $7$ & $8$\\
+      \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{代码}
+
+在论文中插入代码需要 \pkg{listings} 宏包，它支持代码的语法高亮等特性。config.tex 中配置了最简单的代码风格，
+没有颜色，可以用于打印。
+
+lstlisting 环境提供了可选参数，例如 captain 或者 title，前者可显示序号，而后者只显示标题而没有序号。
+可选参数 label 提供了交叉引用的功能，例如代码~\ref{code}。
+
+\begin{lstlisting}[language=C,caption=代码样例,label=code]
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int main() {
+  pid_t pid;
+
+  switch ((pid = fork())) {
+  case -1:
+    printf("fork failed\n");
+    break;
+  case 0:
+    /* child calls exec */
+    execl("/bin/ls", "ls", "-l", (char*)0);
+    printf("execl failed\n");
+    break;
+  default:
+    /* parent uses wait to suspend execution until child finishes */
+    wait((int*)0);
+    printf("is completed\n");
+    break;
+  }
+
+  return 0;
+}\end{lstlisting}
+
+在 tex 文件中书写代码需要格外注意缩进，更加方便地是直接从代码源文件中导入代码片段，
+即使用 \cs{lstinputlisting} 命令，它提供了参数 linerange 可以指定导入源文件的哪几行，
+通过 \cs{lstname} 还可以直接获取文件名。
+
+\lstinputlisting[linerange={10-17},language=C,caption=\lstname]{Source/code.cpp}
+
+书写算法可以使用 \pkg{algorithm2e}，如算法~\ref{algo}，更多相关内容可查询相关文档。
+
+\begin{algorithm}[!htbp]
+    \SetAlgoLined\normalem\linespread{1.2}\small
+    \caption{How to write algorithms}\label{algo}
+    \KwData{this text}
+    \KwResult{how to write algorithm with \LaTeX2e }
+    initialization\;
+    \While{not at end of this document}{
+        read current\;
+        \eIf{understand}{
+            go to next section\;
+            current section becomes this one\;
+        }{
+            go back to the beginning of current section\;
+        }
+    }
+\end{algorithm}
+
+\section{参考文献}
+
+参考文献应符合国标 GB/T 7714-2015，该标准为替换印刷格式样式中规定的国标 GB/T 7714-2005 的最新版本，
+使用 Bib\LaTeX{} 以及样式包 \pkg{biblatex-7714-2015} 可以轻松实现，后端使用 biber 引擎。
+
+通常可以使用 \cs{cite} 直接引用，例如\cite{lamport1986document}，参数可以添加多个，用逗号隔开，可以实现
+同时引用多个参考文献\cite{chen2005zhulu,chu2004tushu,stamerjohanns2009mathml}。
+使用 \cs{parencite} 可以获得非上标的以用\parencite{betts2005aging}，同样可以同时引用
+多个\parencite{bravo1990comparative,hls2012jinji,niu2013zonghe}。此外，还支持在脚注的引用，
+这种方式的引用将与脚注共享编号，并且同时也会打印在最后的参考引用页中\footfullcite{chen1980zhongguo}，打印在
+参考引用页中的序号与脚注编号无关。
+
+参考文献页\cite{yuan2012lana,yuan2012lanb,yuan2012lanc}将按照引用出现的顺序\footfullcite{walls2013drought}
+生成序号\parencite{Bohan1928,Dubrovin1906}。
