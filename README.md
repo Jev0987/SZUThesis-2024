@@ -1,6 +1,6 @@
 # overleaf 打开该模版
 ## 模版简介
-* 根据 [这个兄弟的2024修改版本做了一些微调](https://github.com/Nazzcjy/SZUThesisLatest)
+* 根据 [这个兄弟的2024修改版本](https://github.com/Nazzcjy/SZUThesisLatest)做了一些微调
 
 ## 编译
 * 为了方便，该项目可以在overleaf中打开
